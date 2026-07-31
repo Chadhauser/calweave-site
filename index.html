@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CalWeave — Calendar & Sheets, kept in sync safely</title>
+<meta name="description" content="Two-way Google Calendar and Google Sheets sync that won't time out or wreck your calendar. 14-day free trial, then $24/year.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101823; --paper:#fbfcfe; --line:#dbe2ec; --cal:#1a5fd0; --sheet:#0f7a3d;
+    --soft:#5b6774; --card:#ffffff; --halt:#b3261e;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+  a{color:var(--cal)}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  header{border-bottom:1px solid var(--line);background:var(--card)}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em}
+  .logo b{color:var(--cal)}.logo i{font-style:normal;color:var(--sheet)}
+  .nav a.btn{margin-left:10px}
+  .btn{display:inline-block;background:var(--cal);color:#fff;text-decoration:none;font-weight:600;
+       padding:11px 22px;border-radius:8px;font-size:15px}
+  .btn.ghost{background:transparent;color:var(--cal);border:1.5px solid var(--cal)}
+  .hero{padding:64px 0 40px;text-align:left;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .hero h1{font-size:clamp(30px,4.6vw,44px);letter-spacing:-.02em;margin-bottom:14px}
+  .hero p.lead{font-size:18px;color:var(--soft);margin-bottom:24px;max-width:44ch}
+  .price-line{margin-top:14px;font-size:14px;color:var(--soft)}
+  .mirror{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(16,24,35,.06)}
+  .mrow{display:grid;grid-template-columns:86px 1fr;gap:10px;align-items:center;padding:10px;border-radius:8px}
+  .mrow .tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+             padding:4px 8px;border-radius:5px;text-align:center}
+  .cal .tag{background:var(--cal)} .sheet .tag{background:var(--sheet)}
+  .chip{background:#eef3fb;border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:13.5px;
+        font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sheet .chip{background:#eefaf1;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+  .syncline{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--soft);font-size:12px;padding:6px 0}
+  .syncline .dotline{flex:1;border-top:2px dashed var(--line)}
+  .pulse{width:9px;height:9px;border-radius:50%;background:var(--sheet);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  h2{font-size:26px;margin-bottom:22px;letter-spacing:-.01em}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card h3{font-size:17px;margin-bottom:8px}
+  .card p{font-size:14.5px;color:var(--soft)}
+  .card .k{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+           margin-bottom:10px;padding:3px 8px;border-radius:5px}
+  .k.blue{background:#eef3fb;color:var(--cal)} .k.green{background:#eefaf1;color:var(--sheet)} .k.red{background:#fdeeed;color:var(--halt)}
+  .pricebox{display:flex;gap:26px;align-items:stretch;flex-wrap:wrap}
+  .pricecard{flex:1;min-width:260px;background:var(--card);border:1.5px solid var(--cal);border-radius:14px;padding:26px}
+  .pricecard .amount{font-family:'Space Grotesk',sans-serif;font-size:42px;font-weight:700}
+  .pricecard .amount span{font-size:16px;color:var(--soft);font-weight:500}
+  .pricecard ul{list-style:none;margin:16px 0 20px}
+  .pricecard li{padding:6px 0;font-size:14.5px;border-bottom:1px dashed var(--line)}
+  .legal p, .legal li{font-size:14.5px;color:var(--soft);margin-bottom:10px}
+  .legal ul{margin:0 0 10px 20px}
+  .legal h3{font-size:16px;margin:18px 0 8px;color:var(--ink)}
+  footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color:var(--soft)}
+  @media (max-width:760px){.hero{grid-template-columns:1fr;padding:40px 0 28px}.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><b>Cal</b><i>Weave</i></div>
+    <nav>
+      <a href="#pricing" style="text-decoration:none;color:var(--ink);font-size:14.5px;margin-right:8px">Pricing</a>
+      <a href="#support" style="text-decoration:none;color:var(--ink);font-size:14.5px;margin-right:8px">Support</a>
+      <a class="btn" href="#pricing">Start free trial</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Google Calendar and Google&nbsp;Sheets, kept in sync — safely.</h1>
+      <p class="lead">CalWeave imports your events into a clean spreadsheet and pushes sheet rows back to your calendar. It won't time out on big calendars, and it can never quietly wipe events you meant to keep.</p>
+      <a class="btn" href="#pricing">Start your 14-day free trial</a>
+      <a class="btn ghost" href="#how" style="margin-left:10px">See how it works</a>
+      <div class="price-line">Free for 14 days, full features, no card required. Then $24/year.</div>
+    </div>
+    <div class="mirror" aria-label="A calendar event and its matching spreadsheet row, kept in sync">
+      <div class="mrow cal"><span class="tag">Calendar</span><span class="chip">Client review — Tue 10:00–10:45 · Meet</span></div>
+      <div class="syncline"><span class="dotline"></span><span class="pulse"></span> synced <span class="pulse"></span><span class="dotline"></span></div>
+      <div class="mrow sheet"><span class="tag">Sheet</span><span class="chip">Client review | Tue 10:00 | 10:45 | Meet | SYNCED</span></div>
+    </div>
+  </div>
+
+  <section id="how">
+    <h2>Built to fix the three things that break these tools</h2>
+    <div class="grid3">
+      <div class="card"><span class="k blue">No timeouts</span>
+        <h3>Big calendars finish</h3>
+        <p>Large syncs run in batches and complete in the background. Years of events import without the dreaded "exceeded maximum time" error.</p></div>
+      <div class="card"><span class="k red">No calendar wipes</span>
+        <h3>Preview + delete safety cap</h3>
+        <p>Every write can be previewed first, and a single sync can never delete more events than the cap you set. A runaway spreadsheet cannot empty your calendar.</p></div>
+      <div class="card"><span class="k green">No duplicates</span>
+        <h3>Re-imports update in place</h3>
+        <p>Rows are matched to real events by ID, so re-syncing refreshes your sheet instead of piling up copies — and unchanged rows are left alone.</p></div>
+    </div>
+    <div style="margin-top:22px" class="legal">
+      <p><strong>What you can do with it:</strong> import events (with date, keyword and colour filters) for time tracking, billing and reporting · create and update events from rows · run it automatically every hour or day · keep both directions in step.</p>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <h2>Simple pricing</h2>
+    <div class="pricebox">
+      <div class="pricecard">
+        <div class="amount">$24 <span>/ year</span></div>
+        <ul>
+          <li>14-day free trial — full features, no card required</li>
+          <li>Two-way sync, auto-sync schedules, all filters</li>
+          <li>All safety features: preview, delete cap, duplicate protection</li>
+          <li>Email support with real replies</li>
+          <li>Auto-renews annually · cancel anytime</li>
+        </ul>
+        <a class="btn" href="https://buy.stripe.com/14AeVd4NsbufgUp7yKeIw00" id="buy">Buy CalWeave — $24/year</a>
+        <p style="font-size:12.5px;color:var(--soft);margin-top:10px">Payment is processed securely by Stripe. Your licence key is shown immediately after checkout — paste it into the add-on once and you're done.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="refunds" class="legal">
+    <h2>Refunds &amp; cancellation</h2>
+    <p>Try before you buy: the 14-day trial includes every feature, so you can prove CalWeave works on your own calendar before paying anything.</p>
+    <p>If you purchase and something doesn't work for you, email us within 14 days of the charge and we'll refund it in full. Renewal charges are refundable on the same terms. You can cancel auto-renewal at any time via the payment management link in your receipt email; your licence stays active until the end of the paid year.</p>
+  </section>
+
+  <section id="terms" class="legal">
+    <h2>Terms of service</h2>
+    <p>CalWeave is provided by Edwards Bros (Spaldwick) Ltd, trading as CalWeave ("we"). By purchasing a licence you agree to these terms.</p>
+    <h3>Licence</h3>
+    <p>A licence permits one Google account to use CalWeave's paid features for the paid period. Licences auto-renew annually until cancelled.</p>
+    <h3>Service</h3>
+    <p>CalWeave runs inside your own Google account using Google's Apps Script platform, and depends on Google services remaining available. We maintain the add-on against Google's platform changes and provide support by email.</p>
+    <h3>Your data</h3>
+    <p>Your calendar and spreadsheet contents are processed inside your Google account and are never stored on our servers. See the privacy policy below.</p>
+    <h3>Liability</h3>
+    <p>CalWeave includes safeguards (preview, delete caps, duplicate protection), but you remain responsible for reviewing changes before applying them to important data. To the maximum extent permitted by law, our liability is limited to the amount you paid in the preceding 12 months. Nothing in these terms limits liability that cannot lawfully be limited.</p>
+    <h3>Governing law</h3>
+    <p>These terms are governed by the laws of England and Wales.</p>
+  </section>
+
+  <section id="privacy" class="legal">
+    <h2>Privacy policy</h2>
+    <p>CalWeave requests the minimum Google permissions needed to do its job:</p>
+    <ul>
+      <li><strong>Google Calendar (read and events):</strong> to read events for import and to create, update or delete events you ask it to.</li>
+      <li><strong>The current spreadsheet only:</strong> CalWeave can only see the spreadsheet it's open in — not your other files.</li>
+      <li><strong>Your email address:</strong> to tie your licence to your account and to email you if a payment needs attention.</li>
+      <li><strong>External requests:</strong> solely to verify your licence key with our licence server over HTTPS.</li>
+    </ul>
+    <p>We do not store your calendar events or spreadsheet contents on our servers. Synchronisation happens inside your Google account. We do not sell, rent, or share your data with anyone. The only data that leaves your Google account is your licence key and account email, sent to our licence server for validation. Settings are stored in Google's per-document Properties service inside your own account; uninstalling the add-on removes its access.</p>
+    <p>CalWeave's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+  </section>
+
+  <section id="support" class="legal">
+    <h2>Support &amp; contact</h2>
+    <p>Email <a href="mailto:support@calweave.app">support@calweave.app</a> — real replies, usually within one business day. Setup takes about two minutes; the add-on includes a one-click sample sheet so you can watch a sync work before touching real data.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>CalWeave</strong> is a trading name of Edwards Bros (Spaldwick) Ltd, a company registered in England and Wales. · <a href="#terms">Terms</a> · <a href="#privacy">Privacy</a> · <a href="#refunds">Refunds</a> · <a href="mailto:support@calweave.app">Contact</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
