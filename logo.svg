@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- CalWeave logo: calendar page + sheet grid joined by a weave/sync loop -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a5fd0"/>
+      <stop offset="1" stop-color="#0f7a3d"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="url(#bg)"/>
+  <!-- calendar (top-left) -->
+  <g fill="#ffffff">
+    <rect x="26" y="30" width="34" height="30" rx="4" opacity="0.95"/>
+    <rect x="26" y="30" width="34" height="9" rx="4" fill="#0d3f8f"/>
+    <rect x="31" y="26" width="4" height="8" rx="2" fill="#ffffff"/>
+    <rect x="51" y="26" width="4" height="8" rx="2" fill="#ffffff"/>
+    <rect x="31" y="44" width="6" height="5" rx="1" fill="#1a5fd0"/>
+    <rect x="40" y="44" width="6" height="5" rx="1" fill="#1a5fd0" opacity="0.5"/>
+    <rect x="49" y="44" width="6" height="5" rx="1" fill="#1a5fd0" opacity="0.5"/>
+    <rect x="31" y="52" width="6" height="5" rx="1" fill="#1a5fd0" opacity="0.5"/>
+    <rect x="40" y="52" width="6" height="5" rx="1" fill="#1a5fd0"/>
+  </g>
+  <!-- sheet (bottom-right) -->
+  <g fill="#ffffff">
+    <rect x="68" y="68" width="34" height="30" rx="4" opacity="0.95"/>
+    <rect x="68" y="68" width="34" height="8" rx="4" fill="#0b5c2e"/>
+    <line x1="79" y1="76" x2="79" y2="98" stroke="#0f7a3d" stroke-width="2"/>
+    <line x1="90" y1="76" x2="90" y2="98" stroke="#0f7a3d" stroke-width="2"/>
+    <line x1="68" y1="84" x2="102" y2="84" stroke="#0f7a3d" stroke-width="2"/>
+    <line x1="68" y1="91" x2="102" y2="91" stroke="#0f7a3d" stroke-width="2"/>
+  </g>
+  <!-- weave arrows -->
+  <g stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round">
+    <path d="M 70 44 A 26 26 0 0 1 96 62" />
+    <path d="M 58 84 A 26 26 0 0 1 32 66" />
+  </g>
+  <g fill="#ffffff">
+    <polygon points="96,50 104,64 88,64"/>
+    <polygon points="32,78 24,64 40,64"/>
+  </g>
+</svg>
