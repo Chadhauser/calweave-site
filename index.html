@@ -153,15 +153,30 @@
 
   <section id="privacy" class="legal">
     <h2>Privacy policy</h2>
-    <p>CalWeave requests the minimum Google permissions needed to do its job:</p>
+    <p><em>Last updated: 7 August 2026.</em> This policy explains how CalWeave (the "add-on"), operated by <strong>Edwards Bros (Spaldwick) Ltd</strong> ("we", "us"), the data controller, handles your information — including data accessed from your Google account via Google APIs.</p>
+
+    <h3>What Google user data we access</h3>
     <ul>
-      <li><strong>Google Calendar (read and events):</strong> to read events for import and to create, update or delete events you ask it to.</li>
-      <li><strong>The current spreadsheet only:</strong> CalWeave can only see the spreadsheet it's open in — not your other files.</li>
-      <li><strong>Your email address:</strong> to tie your licence to your account and to email you if a payment needs attention.</li>
-      <li><strong>External requests:</strong> solely to verify your licence key with our licence server over HTTPS.</li>
+      <li><strong>Google Calendar events</strong> (read via <code>calendar.readonly</code>; create, update and delete via <code>calendar.events</code>): event titles, dates and times, locations, descriptions, guest email addresses and event colour, for the calendars and date ranges you choose.</li>
+      <li><strong>The current spreadsheet only</strong> (<code>spreadsheets.currentonly</code>): the rows of the spreadsheet the add-on is installed in. CalWeave cannot see any of your other files.</li>
+      <li><strong>Your Google account email address</strong> (<code>userinfo.email</code>).</li>
+      <li>Supporting, non-data scopes: displaying the add-on's sidebar (<code>script.container.ui</code>), managing the optional auto-sync schedule you configure (<code>script.scriptapp</code>), and contacting our licence server (<code>script.external_request</code>).</li>
     </ul>
-    <p>We do not store your calendar events or spreadsheet contents on our servers. Synchronisation happens inside your Google account. We do not sell, rent, or share your data with anyone. The only data that leaves your Google account is your licence key and account email, sent to our licence server for validation. Settings are stored in Google's per-document Properties service inside your own account; uninstalling the add-on removes its access.</p>
-    <p>CalWeave's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+    <h3>How we use Google user data</h3>
+    <p>Calendar and spreadsheet data is used for one purpose only: performing the synchronisation you explicitly request between your Google Calendar and your spreadsheet. Processing happens transiently, in memory, inside Google's own infrastructure attached to your account. Your email address is used solely to associate your licence with your account and to contact you about your subscription (for example a failed payment). We do not use Google user data for advertising, profiling, analytics, or training machine-learning or AI models, and no human at our company reads it.</p>
+
+    <h3>Sharing, transfer and disclosure</h3>
+    <p>We do not sell, rent, or trade Google user data, and we do not share it with third parties, with two narrow exceptions: (1) your licence key and account email (never calendar or spreadsheet content) are sent over HTTPS to our licence server, hosted by our infrastructure processor Supabase, solely to validate your licence; and (2) we may disclose information if required by law. Nothing else leaves your Google account.</p>
+
+    <h3>How we protect your data</h3>
+    <p>Calendar events and spreadsheet contents are never stored on our servers — there is nothing of yours there to breach. All communication with our licence server uses TLS-encrypted HTTPS. Licence records (key, account email, subscription status) are stored by our processor with encryption at rest and are accessible only to authorised personnel via authenticated, access-controlled connections. The add-on follows the principle of least privilege, requesting the narrowest Google scopes that support its features — including limiting spreadsheet access to the single document it is installed in.</p>
+
+    <h3>Retention and deletion</h3>
+    <p>Calendar and spreadsheet data: not retained — it exists only for the duration of a sync you run. Add-on settings are stored in the document properties of your own spreadsheet inside your Google account and are removed when you uninstall the add-on or delete the spreadsheet. Licence records are retained while your subscription is active and for the period required by UK accounting law, then deleted. You may request deletion of your licence data at any time by emailing <a href="mailto:support@calweave.app">support@calweave.app</a>; verified requests are completed within 30 days. You can revoke the add-on's access to your Google account at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>, which immediately ends all data access.</p>
+
+    <h3>Limited Use disclosure</h3>
+    <p>CalWeave's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
   </section>
 
   <section id="support" class="legal">
