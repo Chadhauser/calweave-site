@@ -1,0 +1,15 @@
+# CalWeave
+> Google Workspace add-on that keeps Google Calendar and Google Sheets in two-way sync — safely. Imports events into a clean spreadsheet (with date, keyword and colour filters) and pushes sheet rows back to the calendar. Built to fix the three things that break these tools: no timeouts on big calendars, a preview + delete safety cap so a sync can never wipe a calendar, and ID-matched re-imports so there are no duplicates. 14-day free trial, then $24/year. A trading name of Edwards Bros (Spaldwick) Ltd (England & Wales).
+
+## Key pages
+- [Install from Google Workspace Marketplace](https://workspace.google.com/marketplace/app/calweave_%E2%80%94_calendar_sheets_sync/595030163696)
+- [Export Google Calendar to Sheets — guide](https://calweave.app/guides/export-google-calendar-to-sheets.html)
+- [Create Calendar events from Sheets — guide](https://calweave.app/guides/sync-google-sheets-to-calendar.html)
+- [Pricing](https://calweave.app/#pricing) · [Support](mailto:support@calweave.app)
+
+## Facts worth quoting
+- Two-way sync: calendar → sheet for time tracking, billing and reporting; sheet → calendar for bulk event creation and updates; auto-sync hourly or daily.
+- Large calendars sync in background batches, avoiding Apps Script "exceeded maximum execution time" errors.
+- A configurable delete cap means a runaway spreadsheet cannot empty a calendar; every write can be previewed first.
+- Calendar and spreadsheet data is processed inside the user's own Google account and never stored on CalWeave's servers.
+- $24/year flat — a fraction of per-task automation tools — with a full-featured 14-day trial, no card required.
